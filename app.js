@@ -26,7 +26,7 @@ Parameters
 app.get("/get/:id", verifyCache, (req, res) => {
     var id = req.params.id;
     console.log('Instagram User ID: ' + id);
-    getFollowers(id).then(json => res.json(json));
+    getFollowers(id).then(json => res.json(json)).catch(err => res.sendStatus(404));
 });
 
 /* Alternative route to retrieve always latest data without cache
@@ -39,7 +39,7 @@ app.get("/get/:id/:nocache", (req, res) => {
     var nocache = req.params.nocache
     console.log('Instagram User ID: ' + id);
     console.log('Cached/Latest: ' + nocache);
-    getFollowers(id).then(json => res.json(json));
+    getFollowers(id).then(json => res.json(json)).catch(err => res.sendStatus(404));
 });
 
 //Default route with no parameters
@@ -64,7 +64,7 @@ async function getFollowers(handler) {
                 'cookie': 'mid={TBD}; csrftoken={TBD}; ds_user_id={TBD}; sessionid={TBD}; rur="{TBD}"'
             }
         })*/ 
-        /*This header is required when Instagram enforces a rate limit forcing for authentication. In such cases the workaround is to login to instagram
+        /*These headers are required when Instagram enforces a rate limit forcing for authentication. In such cases the workaround is to login to instagram
         in a browser and grab the following cookies from Request Header - mid, csrftoken, ds_user_id, sessionid & rur. A user-agent is also required*/
 
         //console.log(data)
@@ -112,8 +112,8 @@ async function getFollowers(handler) {
         return jsonParsed;
     } catch (error) {
         console.log('USER NOT FOUND')
-        //throw Error(error);
         console.log(error);
+        throw Error(error);
         //The following is a dummy object created for testing the JSON response
         /*var result = new Object();
         result.user_name = "mavrckco";
