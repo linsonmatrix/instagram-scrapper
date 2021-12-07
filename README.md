@@ -26,6 +26,10 @@ The above information once retrieved is cached for 1 hour so that successive req
 
 2) `GET /get/{handler}/latest` - this endpoint accepts an additional parameter on top of the instagram handle name. This route was exclusively designed to avoid caching and thus the user can always request for latest data from Instagram.
 
+## Error Handling
+
+Application returns a `404 Not Found` under any circumstances when the app fails to retrieve data from Instagram and writes the error to console.
+
 ## Installation and Dependency
 
 1) Install Node JS and NPM from [here] (https://nodejs.org/en/download/)
